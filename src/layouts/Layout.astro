@@ -2,6 +2,7 @@
 import { Font } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
 import Analytics from "@vercel/analytics/astro";
+import "lenis/dist/lenis.css";
 
 const title = "Green Light";
 const description =
@@ -48,6 +49,29 @@ const image = "/opengraph-image.png";
     </body>
 </html>
 
+<script>
+    import Lenis from "lenis";
+
+    // Slight smooth scrolling. Recreated per page so it never fights the
+    // router's own scroll restoration between view transitions.
+    let lenis: Lenis | undefined;
+
+    document.addEventListener("astro:page-load", () => {
+        lenis?.destroy();
+        lenis = new Lenis({
+            lerp: 0.14,
+            autoRaf: true,
+            allowNestedScroll: true,
+            respectReducedMotion: true,
+        });
+    });
+
+    document.addEventListener("astro:before-swap", () => {
+        lenis?.destroy();
+        lenis = undefined;
+    });
+</script>
+
 <style is:global>
     :root {
         --color-canvas: #000000;
@@ -79,13 +103,17 @@ const image = "/opengraph-image.png";
         background: var(--color-canvas);
         overflow-x: clip;
         font-synthesis-weight: none;
+        scrollbar-width: none;
+    }
+
+    html::-webkit-scrollbar {
+        display: none;
     }
 
     body {
         min-inline-size: 0;
         min-block-size: 100%;
         margin: 0;
-        background: var(--color-canvas);
         color: var(--color-text);
         font-family: var(--font-display);
     }

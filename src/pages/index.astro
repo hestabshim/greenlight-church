@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Countdown from "../components/Countdown.astro";
 import Gallery from "../components/Gallery.astro";
+import TrafficGlow from "../components/TrafficGlow.astro";
 import {
     nextShowDate,
     SHOW_START_OFFSET_MS,
@@ -109,6 +110,8 @@ const embedSrc = showVideo
             ))}
         </div>
     </aside>
+
+    <TrafficGlow />
 </Layout>
 
 <style>
